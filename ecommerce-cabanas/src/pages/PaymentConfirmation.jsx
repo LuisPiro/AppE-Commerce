@@ -18,7 +18,7 @@ const PaymentConfirmation = () => {
       <p><strong>Cabaña:</strong> {cabinDetails.name}</p>
       <p><strong>Total a Pagar:</strong> ${totalAmount}</p>
       <h2>Realiza tu Pago</h2>
-      <PayPalCheckout />
+      <PayPalCheckout totalAmount={totalAmount} /> {/* Pasar el monto total como prop si es necesario */}
     </div>
   );
 };

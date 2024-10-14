@@ -1,59 +1,67 @@
-// src/components/PayPalCheckout.jsx
-import React from 'react';
-import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
-
-const initialOptions = {
-    clientId: "YOAdmfYhb0BU9KA45xzoaD9eKEteKjbz2M5oS_ORmRm3YZ2n_Z8xyR7zrtOItAd2haIBrw8N4-zvzMOSosUR_CLIENT_ID", // Reemplaza con tu Client ID real
-    currency: "USD",
-    intent: "capture",
-};
+import React, { useState } from 'react';
+import axios from 'axios';
 
 const PayPalCheckout = () => {
-    const createOrder = () => {
-        // Aquí deberías llamar a tu backend para crear la orden
-        return fetch("/my-server/create-paypal-order", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                // Puedes pasar información adicional aquí
-                cart: [
-                    {
-                        id: "YOUR_PRODUCT_ID",
-                        quantity: 1, // O la cantidad que necesites
-                    },
-                ],
-            }),
-        })
-            .then((response) => response.json())
-            .then((order) => order.id);
+    const [totalAmount, setTotalAmount] = useState('');
+    const [orderID, setOrderID] = useState(null);
+    const [statusMessage, setStatusMessage] = useState('');
+
+    // Función para crear la orden de PayPal
+    const createOrder = async () => {
+        try {
+            const response = await axios.post('/my-server/create-paypal-order', {
+                totalAmount: totalAmount // Total de la compra
+            });
+
+            setOrderID(response.data.id); // Guardamos el ID de la orden de PayPal
+            setStatusMessage('Orden creada exitosamente, por favor captura la orden.');
+        } catch (error) {
+            setStatusMessage('Error al crear la orden: ' + error.message);
+        }
     };
 
-    const onApprove = (data) => {
-        return fetch("/my-server/capture-paypal-order", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                orderID: data.orderID
-            }),
-        })
-        .then((response) => response.json())
-        .then((orderData) => {
-            const name = orderData.payer.name.given_name;
-            alert(`Transacción completada por ${name}`);
-        });
+    // Función para capturar la orden de PayPal
+    const captureOrder = async () => {
+        if (!orderID) {
+            setStatusMessage('Primero debes crear una orden.');
+            return;
+        }
+
+        try {
+            const response = await axios.post('/my-server/capture-paypal-order', {
+                orderID: orderID // ID de la orden creada
+            });
+
+            setStatusMessage('Orden capturada exitosamente: ' + JSON.stringify(response.data));
+        } catch (error) {
+            setStatusMessage('Error al capturar la orden: ' + error.message);
+        }
     };
 
     return (
-        <PayPalScriptProvider options={initialOptions}>
-            <PayPalButtons
-                createOrder={createOrder}
-                onApprove={onApprove}
-            />
-        </PayPalScriptProvider>
+        <div>
+            <h2>Checkout de PayPal</h2>
+            <div>
+                <label>Total a pagar (USD):</label>
+                <input
+                    type="number"
+                    value={totalAmount}
+                    onChange={(e) => setTotalAmount(e.target.value)}
+                    placeholder="Introduce el total"
+                />
+            </div>
+
+            <button onClick={createOrder}>Crear Orden de PayPal</button>
+
+            {orderID && (
+                <>
+                    <p>ID de la Orden: {orderID}</p>
+                    <button onClick={captureOrder}>Capturar Orden de PayPal</button>
+                </>
+            )}
+
+            {statusMessage && <p>{statusMessage}</p>}
+        </div>
     );
 };
 

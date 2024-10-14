@@ -1,22 +1,33 @@
 // src/pages/PaymentPage.jsx
 import React from 'react';
 import { useLocation } from 'react-router-dom';
+import axios from 'axios';
 
 const PaymentPage = () => {
-  const { state } = useLocation();
-  const totalPrice = state?.totalPrice || 0;
+  const location = useLocation();
+  const { totalAmount, cabinDetails } = location.state || { totalAmount: 0, cabinDetails: { name: '' } };
 
-  const handlePayment = () => {
-    // Aquí puedes manejar la lógica de pago
-    console.log(`Procesando pago por: $${totalPrice}`);
-    // Redirigir o mostrar un mensaje de confirmación
+  const handlePayment = async () => {
+    try {
+      // Crea la orden de PayPal con el totalAmount
+      const response = await axios.post('http://localhost:5000/my-server/create-paypal-order', {
+        totalAmount: totalAmount,
+      });
+      const { id } = response.data;
+
+      // Redirigir al usuario a la página de pago de PayPal
+      window.location.href = `https://www.sandbox.paypal.com/checkoutnow?token=${id}`;
+    } catch (error) {
+      console.error('Error al crear la orden de PayPal:', error);
+    }
   };
 
   return (
     <div>
-      <h1>Pagar Reserva</h1>
-      <p>Total a pagar: ${totalPrice}</p>
-      <button onClick={handlePayment}>Confirmar Pago</button>
+      <h1>Confirmación de Reserva</h1>
+      <p>{cabinDetails.name}</p>
+      <p>Total a pagar: ${totalAmount}</p>
+      <button onClick={handlePayment}>Pagar con PayPal</button>
     </div>
   );
 };

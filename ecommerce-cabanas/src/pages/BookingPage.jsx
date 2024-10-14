@@ -1,3 +1,4 @@
+// src/pages/BookingPage.jsx
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './BookingPage.css';
@@ -40,7 +41,7 @@ const BookingPage = () => {
     e.preventDefault();
     // Redirigir a la página de pago solo si el precio es mayor a 0
     if (totalPrice > 0) {
-      navigate('/payment', { state: { totalPrice } });
+      navigate('/payment', { state: { totalAmount: totalPrice, cabinDetails: { name: `Cabaña para ${cabinType} personas` } } });
     }
   };
 
