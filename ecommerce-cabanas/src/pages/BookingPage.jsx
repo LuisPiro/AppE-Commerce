@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './BookingPage.css';
 
@@ -15,34 +15,32 @@ const BookingPage = () => {
   const [totalPrice, setTotalPrice] = useState(0);
   const navigate = useNavigate();
 
-  const handleCalculatePrice = () => {
+  // UseEffect para calcular el precio total cada vez que cambian las fechas o el tipo de cabaña
+  useEffect(() => {
     if (startDate && endDate && cabinType) {
       const start = new Date(startDate);
       const end = new Date(endDate);
       
-      // Validar que endDate sea posterior a startDate
-      if (end <= start) {
-        alert('La fecha de fin debe ser posterior a la fecha de inicio.');
-        return 0;
-      }
+      if (end > start) { // Verifica que endDate sea posterior a startDate
+        const diffTime = Math.abs(end - start);
+        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); // Convertir milisegundos a días
+        const pricePerDay = prices[cabinType];
+        const calculatedPrice = diffDays * pricePerDay;
 
-      const diffTime = Math.abs(end - start);
-      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); // Convertir milisegundos a días
-      const pricePerDay = prices[cabinType];
-      const calculatedPrice = diffDays * pricePerDay;
-      
-      setTotalPrice(calculatedPrice); // Actualizar el precio total
-      return calculatedPrice; // Retorna el precio calculado
+        setTotalPrice(calculatedPrice); // Actualiza el precio total
+      } else {
+        setTotalPrice(0); // Si las fechas no son válidas, establece el precio en 0
+      }
+    } else {
+      setTotalPrice(0); // Si faltan datos, establece el precio en 0
     }
-    return 0; // Retorna 0 si no hay fechas o tipo de cabaña
-  };
+  }, [startDate, endDate, cabinType]); // Dependencias para calcular el precio
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const calculatedPrice = handleCalculatePrice(); // Calcula el precio antes de redirigir
-    if (calculatedPrice > 0) {
-      // Redirigir a la página de pago solo si el precio es mayor a 0
-      navigate('/payment', { state: { totalPrice: calculatedPrice } });
+    // Redirigir a la página de pago solo si el precio es mayor a 0
+    if (totalPrice > 0) {
+      navigate('/payment', { state: { totalPrice } });
     }
   };
 
