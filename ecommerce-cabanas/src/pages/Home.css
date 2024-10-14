@@ -1,0 +1,45 @@
+/* src/styles/Home.css */
+.cabin-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  .cabin-card {
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    margin: 15px;
+    padding: 10px;
+    max-width: 300px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .cabin-card img {
+    border-radius: 10px;
+    height: 200px;
+    object-fit: cover;
+  }
+  
+  .cabin-card h2 {
+    font-size: 1.5em;
+    margin: 10px 0;
+  }
+  
+  .cabin-card p {
+    margin: 5px 0;
+  }
+  
+  .cabin-card button {
+    background-color: #007bff; /* Color del botón */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 15px;
+    cursor: pointer;
+  }
+  
+  .cabin-card button:hover {
+    background-color: #0056b3; /* Color del botón al pasar el mouse */
+  }
+  
