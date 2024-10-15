@@ -1,6 +1,7 @@
-// src/context/AuthContext.js
-import { createContext, useReducer } from 'react';
-import axiosInstance from '../axiosConfig';
+// src/context/AuthContext.jsx
+import { createContext, useReducer, useEffect } from "react";
+import axiosInstance from "../axiosConfig";
+import * as jwtDecode from "jwt-decode";
 
 const AuthContext = createContext();
 
@@ -37,10 +38,11 @@ export const AuthProvider = ({ children }) => {
   const login = async (credentials) => {
     try {
       const { data } = await axiosInstance.post('/auth/login', credentials);
+      const decodedUser = jwtDecode(data.token); // Aquí sigue igual
       dispatch({
         type: 'LOGIN_SUCCESS',
         payload: {
-          user: data.user,
+          user: decodedUser,
           token: data.token,
         },
       });
@@ -54,6 +56,17 @@ export const AuthProvider = ({ children }) => {
     dispatch({ type: 'LOGOUT' });
     localStorage.removeItem('token');
   };
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      const decodedUser = jwtDecode(token);
+      dispatch({
+        type: 'LOGIN_SUCCESS',
+        payload: { user: decodedUser, token },
+      });
+    }
+  }, []);
 
   return (
     <AuthContext.Provider value={{ ...state, login, logout }}>

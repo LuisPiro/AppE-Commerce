@@ -1,4 +1,3 @@
-// src/pages/BookingPage.jsx
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './BookingPage.css';
@@ -14,34 +13,51 @@ const BookingPage = () => {
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
   const [totalPrice, setTotalPrice] = useState(0);
+  const [error, setError] = useState('');
   const navigate = useNavigate();
 
-  // UseEffect para calcular el precio total cada vez que cambian las fechas o el tipo de cabaña
   useEffect(() => {
+    setError(''); // Resetea el error al cambiar cualquiera de los valores
     if (startDate && endDate && cabinType) {
       const start = new Date(startDate);
       const end = new Date(endDate);
       
       if (end > start) { // Verifica que endDate sea posterior a startDate
-        const diffTime = Math.abs(end - start);
-        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); // Convertir milisegundos a días
+        const diffDays = Math.ceil((end - start) / (1000 * 60 * 60 * 24)); // Convertir milisegundos a días
         const pricePerDay = prices[cabinType];
         const calculatedPrice = diffDays * pricePerDay;
 
         setTotalPrice(calculatedPrice); // Actualiza el precio total
       } else {
-        setTotalPrice(0); // Si las fechas no son válidas, establece el precio en 0
+        setError('La fecha de fin debe ser posterior a la fecha de inicio.');
+        setTotalPrice(0);
       }
     } else {
       setTotalPrice(0); // Si faltan datos, establece el precio en 0
     }
-  }, [startDate, endDate, cabinType]); // Dependencias para calcular el precio
+  }, [startDate, endDate, cabinType]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    // Verifica el número de huéspedes
+    if (numOfGuests > cabinType) {
+      setError('El número de huéspedes excede la capacidad de la cabaña.');
+      return;
+    }
+
     // Redirigir a la página de pago solo si el precio es mayor a 0
     if (totalPrice > 0) {
-      navigate('/payment', { state: { totalAmount: totalPrice, cabinDetails: { name: `Cabaña para ${cabinType} personas` } } });
+      navigate('/payment', {
+        state: {
+          totalAmount: totalPrice,
+          cabinDetails: { name: `Cabaña para ${cabinType} personas` },
+          startDate,
+          endDate,
+          cabinType
+        }
+      });
+    } else {
+      setError('Por favor, asegúrate de seleccionar todos los campos correctamente.');
     }
   };
 
@@ -82,7 +98,8 @@ const BookingPage = () => {
             onChange={(e) => setEndDate(e.target.value)}
           />
         </label>
-        <p>Precio Total: ${totalPrice}</p> {/* Muestra el precio total */}
+        <p>Precio Total: ${totalPrice.toLocaleString(undefined, { minimumFractionDigits: 2 })}</p> {/* Formatear el precio */}
+        {error && <p style={{ color: 'red' }}>{error}</p>} {/* Mostrar mensaje de error */}
         <button type="submit">Reservar</button>
       </form>
     </div>

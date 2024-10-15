@@ -1,30 +1,84 @@
 /* src/components/Navbar.css */
-nav {
-    background-color: #333;
-    color: #fff;
-    padding: 1rem;
+.navbar {
+  position: sticky !important;
+  background-color: #00332e;
+  color: #ffffff;
+  padding: 15px 50px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  top: 0;
+  z-index: 1000;
+}
+
+/* Barra de Navegación */
+.logo img {
+  height: 80px; /* Ajusta la altura según el tamaño que desees para el logo */
+  width: auto; /* Mantiene la proporción de la imagen */
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 30px;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-links a {
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: 500;
+  padding: 10px 20px;
+  border-radius: 30px;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.nav-links a:hover {
+  background-color: #00796b; /* Efecto hover con color verde más claro */
+  color: #ffffff;
+}
+
+.btn-container {
+  margin-left: auto; /* Mueve el botón de reservar al extremo derecho */
+}
+
+.btn-reservar {
+  background-color: #00796b; /* Color verde para el botón */
+  color: #ffffff;
+  padding: 10px 25px;
+  border-radius: 30px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.btn-reservar:hover {
+  background-color: #004d40; /* Cambia a un tono más oscuro en hover */
+  transform: scale(1.05); /* Pequeño aumento en hover */
+}
+
+/* Adaptabilidad para pantallas pequeñas */
+@media (max-width: 768px) {
+  .navbar {
+      flex-direction: column;
+      align-items: flex-start;
+      padding: 10px 20px;
   }
-  
-  nav h1 {
-    margin: 0;
+
+  .nav-links {
+      flex-direction: column;
+      gap: 10px;
   }
-  
-  nav ul {
-    list-style: none;
-    padding: 0;
+
+  .btn-container {
+      margin: 20px 0 0 0; /* Botón reservar debajo de los enlaces en pantallas pequeñas */
   }
-  
-  nav ul li {
-    display: inline;
-    margin-right: 20px;
-  }
-  
-  nav ul li a {
-    color: #fff;
-    text-decoration: none;
-  }
-  
-  nav ul li a:hover {
-    text-decoration: underline;
-  }
-  
+}

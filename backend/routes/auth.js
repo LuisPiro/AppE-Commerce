@@ -10,11 +10,16 @@ const router = express.Router();
 router.post('/register', async (req, res) => {
   const { name, email, password } = req.body;
 
+  // Validar campos requeridos
+  if (!name || !email || !password) {
+    return res.status(400).json({ msg: 'Por favor completa todos los campos' });
+  }
+
   try {
     // Verificar si el usuario ya existe
     const existingUser = await User.findOne({ email });
     if (existingUser) {
-      return res.status(400).json({ msg: 'El usuario ya existe' });
+      return res.status(400).json({ msg: 'El correo electrónico ya está registrado' });
     }
 
     // Encriptar la contraseña
@@ -48,6 +53,11 @@ router.post('/register', async (req, res) => {
 // Iniciar sesión
 router.post('/login', async (req, res) => {
   const { email, password } = req.body;
+
+  // Validar campos requeridos
+  if (!email || !password) {
+    return res.status(400).json({ msg: 'Por favor completa todos los campos' });
+  }
 
   try {
     // Verificar si el usuario existe

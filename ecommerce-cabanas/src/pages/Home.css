@@ -1,45 +1,268 @@
-/* src/styles/Home.css */
-.cabin-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
+/* General */
+body {
+  font-family: 'Arial', sans-serif;
+  margin: 0;
+  padding: 0;
+  color: #333; /* Letras en color oscuro */
+  background-color: #f4f4f4; /* Fondo general claro */
+}
+
+h1, h3 {
+  color: #333; /* Letras en color oscuro */
+}
+
+/* Hero */
+.hero {
+  background: url('./Imgn/CABPrincipal.jpg') no-repeat center center/cover; /* Imagen de fondo para la sección hero */
+  color: #fdd520; /* Texto blanco para contraste */
+  text-align: center;
+  padding: 50px 20px;
+}
+
+.hero h1 {
+  font-size: 48px;
+  margin-bottom: 20px;
+  color: #fdd520;
+}
+
+.hero p {
+  font-size: 18px;
+  margin-bottom: 30px;
+}
+
+.btn-reservar:hover, .btn-enviar:hover {
+  background-color: #004d40; /* Color verde oscuro más intenso */
+}
+
+/* Características */
+.caracteristicas {
+  padding: 60px 20px;
+  background-color: #ffffff; /* Fondo blanco para contraste */
+}
+
+.features-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.feature-item {
+  flex: 1 1 45%;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.galeria {
+  position: relative;
+  width: 80%;
+  margin: 0 auto; /* Centra la galería en la página */
+  overflow: hidden;
+  padding: 20px 0; /* Añade un poco de espacio arriba y abajo de la galería */
+}
+
+.slider {
+  display: flex;
+  transition: transform 0.5s ease-in-out;
+}
+
+.slide {
+  display: flex;
+  justify-content: center; /* Asegura que el contenido esté centrado */
+  min-width: 100%;
+  transition: opacity 0.5s ease-in-out;
+  gap: 10px; /* Espacio entre las imágenes dentro de cada slide */
+}
+
+.slide img {
+  width: calc(50% - 5px); /* Ajusta el ancho de las imágenes para que incluyan el espacio del gap */
+  height: auto;
+  display: block;
+  border-radius: 5px; /* Opcional: bordes redondeados a las imágenes */
+}
+
+/* Controles del slider */
+.slider-controls {
+  text-align: center;
+  position: absolute;
+  width: 100%;
+  bottom: 10px;
+}
+
+.slider-btn {
+  background-color: #333;
+  color: white;
+  border: none;
+  padding: 10px;
+  margin: 0 5px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.slider-btn:hover {
+  background-color: #555;
+}
+
+
+/* Servicios */
+.servicios {
+  padding: 60px 20px;
+  background-color: #f9f9f9; /* Fondo gris claro */
+}
+
+.servicios-etiquetas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px; /* Espacio entre las etiquetas */
+  justify-content: center; /* Centrar etiquetas */
+}
+
+.etiqueta {
+  background-color: #e0f2f1; /* Fondo verde claro */
+  border: 1px solid #00796b; /* Borde verde oscuro */
+  border-radius: 15px; /* Bordes redondeados */
+  padding: 10px 20px;
+  font-size: 16px;
+  color: #004d40; /* Texto verde oscuro */
+  font-weight: bold;
+  text-align: center;
+  white-space: nowrap; /* Evita el salto de línea en etiquetas largas */
+}
+
+/* Video */
+.video {
+  padding: 60px 20px;
+  background-color: #ffffff; /* Fondo blanco */
+  text-align: center;
+}
+
+.video h3 {
+  margin-bottom: 20px;
+  font-size: 20px;
+  color: #00796b; /* Color verde para el título */
+}
+
+.video-embed {
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+.video-embed iframe {
+  width: 100%;
+  height: 315px; /* Altura del video (puedes ajustar según tus necesidades) */
+  border: none;
+  border-radius: 10px; /* Bordes redondeados */
+}
+
+/* Adaptabilidad para pantallas pequeñas */
+@media (max-width: 768px) {
+  .etiqueta {
+      font-size: 14px;
+      padding: 8px 16px;
   }
   
-  .cabin-card {
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    margin: 15px;
-    padding: 10px;
-    max-width: 300px;
-    text-align: center;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  .video-embed iframe {
+      height: 200px; /* Ajusta la altura del video para pantallas pequeñas */
   }
-  
-  .cabin-card img {
-    border-radius: 10px;
-    height: 200px;
-    object-fit: cover;
-  }
-  
-  .cabin-card h2 {
-    font-size: 1.5em;
-    margin: 10px 0;
-  }
-  
-  .cabin-card p {
-    margin: 5px 0;
-  }
-  
-  .cabin-card button {
-    background-color: #007bff; /* Color del botón */
-    color: white;
-    border: none;
-    border-radius: 5px;
-    padding: 10px 15px;
-    cursor: pointer;
-  }
-  
-  .cabin-card button:hover {
-    background-color: #0056b3; /* Color del botón al pasar el mouse */
-  }
-  
+}
+
+
+/* Testimonios */
+/* Asegúrate de que el contenedor tenga display: flex para alinear sus hijos horizontalmente */
+.container {
+  display: flex;
+  gap: 20px; /* Espacio entre los elementos */
+  flex-wrap: wrap; /* Permite que los elementos se envuelvan en pantallas más pequeñas */
+  padding: 20px; /* Espacio alrededor del contenedor */
+}
+
+.testimonios-grid {
+  flex: 1; /* Permite que este div ocupe el espacio disponible */
+  min-width: 300px; /* Ajusta según sea necesario */
+  padding: 20px;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.testimonio {
+  margin-bottom: 15px; /* Espacio entre testimonios */
+}
+
+.map-container {
+  flex: 1; /* Permite que este div ocupe el espacio disponible */
+  min-width: 300px; /* Ajusta según sea necesario */
+}
+
+.map-container iframe {
+  width: 100%; /* Ajusta el ancho del iframe al contenedor */
+  height: 300px; /* Ajusta la altura del iframe */
+  border: 0; /* Elimina el borde del iframe */
+}
+
+/* Contacto y Redes Sociales */
+.contacto {
+  display: flex;
+  justify-content: space-between;
+  padding: 60px 20px;
+  background-color: #e0f2f1; /* Fondo verde claro */
+}
+
+.contacto-form {
+  flex: 1;
+  margin-right: 20px;
+}
+
+.redes-sociales {
+  flex: 1;
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  align-self: flex; /* Ajusta la alineacion vertical al inicio */
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.form-group input, .form-group textarea {
+  width: 90%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.redes-sociales ul {
+  list-style: none;
+  padding: 0;
+}
+
+.redes-sociales ul li {
+  margin-bottom: 10px;
+}
+
+.redes-sociales a {
+  text-decoration: none;
+  color: #004d40; /* Color verde oscuro */
+  font-weight: bold;
+  transition: color 0.3s ease;
+}
+
+.redes-sociales a:hover {
+  color: #00796b; /* Color verde más claro */
+}
+
+/* Footer */
+.footer {
+  background-color: #004d40; /* Fondo verde oscuro */
+  color: #ffffff; /* Letras blancas */
+  text-align: center;
+  padding: 20px 0;
+  font-size: 14px;
+}
