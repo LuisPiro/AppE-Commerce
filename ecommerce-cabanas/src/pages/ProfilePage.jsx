@@ -1,6 +1,6 @@
 // src/pages/ProfilePage.jsx
 import React, { useEffect, useState, useContext } from 'react';
-import axiosInstance from '../axiosConfig';
+import axiosInstance from '../utils/axiosConfig';
 import AuthContext from '../context/AuthContext';
 
 const ProfilePage = () => {

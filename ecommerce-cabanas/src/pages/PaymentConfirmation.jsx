@@ -7,18 +7,22 @@ const PaymentConfirmation = () => {
   const location = useLocation();
   const { totalAmount, cabinDetails } = location.state || {};
 
-  if (!totalAmount) {
-    return <h1>Error: No se proporcionó el monto total</h1>;
+  if (!totalAmount || !cabinDetails) {
+    return <h1>Error: Faltan detalles de la reserva o el monto total</h1>;
   }
 
   return (
     <div style={{ textAlign: 'center', padding: '20px' }}>
       <h1>Confirmación de Pago</h1>
       <p>Detalles de tu Reserva:</p>
-      <p><strong>Cabaña:</strong> {cabinDetails.name}</p>
+      <p><strong>Cabaña:</strong> {cabinDetails.name || 'N/A'}</p>
+      <p><strong>Desde:</strong> {cabinDetails.startDate || 'N/A'}</p>
+      <p><strong>Hasta:</strong> {cabinDetails.endDate || 'N/A'}</p>
       <p><strong>Total a Pagar:</strong> ${totalAmount}</p>
+
       <h2>Realiza tu Pago</h2>
-      <PayPalCheckout totalAmount={totalAmount} /> {/* Pasar el monto total como prop si es necesario */}
+      {/* Pasar el monto total como prop al componente PayPalCheckout */}
+      <PayPalCheckout totalAmount={totalAmount} cabinDetails={cabinDetails} />
     </div>
   );
 };

@@ -1,7 +1,7 @@
 const express = require('express');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const User = require('../models/User');
+const User = require('../models/User.js');
 require('dotenv').config();
 
 const router = express.Router();
@@ -51,39 +51,10 @@ router.post('/register', async (req, res) => {
 });
 
 // Iniciar sesión
-router.post('/login', async (req, res) => {
-  const { email, password } = req.body;
-
-  // Validar campos requeridos
-  if (!email || !password) {
-    return res.status(400).json({ msg: 'Por favor completa todos los campos' });
-  }
-
-  try {
-    // Verificar si el usuario existe
-    const user = await User.findOne({ email });
-    if (!user) {
-      return res.status(400).json({ msg: 'Credenciales inválidas' });
-    }
-
-    // Comparar la contraseña ingresada con la almacenada
-    const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) {
-      return res.status(400).json({ msg: 'Credenciales inválidas' });
-    }
-
-    // Generar el token JWT
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
-
-    res.json({
-      msg: 'Inicio de sesión exitoso',
-      token,
-      user: { id: user._id, name: user.name, email: user.email },
-    });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ msg: 'Hubo un error en el servidor' });
-  }
+router.post('/login', (req, res) => {
+  // Lógica de autenticación
+  res.send('Login exitoso');
 });
+
 
 module.exports = router;

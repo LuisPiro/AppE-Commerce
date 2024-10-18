@@ -52,7 +52,7 @@ const RegisterPage = () => {
           <label>Nombre</label>
           <input
             type="text"
-            name="name"  // Asegúrate de que el nombre aquí sea "name"
+            name="name"
             value={formData.name}
             onChange={handleChange}
             required
