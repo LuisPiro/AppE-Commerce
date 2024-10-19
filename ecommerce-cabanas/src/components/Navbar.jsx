@@ -1,42 +1,43 @@
 // src/components/Navbar.jsx
-import React from "react";
-import { Link } from "react-router-dom"; // Asegúrate de tener React Router instalado
-import "./Navbar.css"; // Importa el CSS de la barra de navegación
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { useCart } from '../context/CartContext'; // Importar el contexto del carrito
+import './Navbar.css'; // Asegúrate de tener un archivo CSS para estilos de Navbar
 
 const Navbar = () => {
+  const { cartItems } = useCart(); // Obtener la cantidad de items en el carrito
+
   return (
     <nav className="navbar">
-      <div className="logo">
-        <img src="../Imgn/logo.jpg" alt="Logo" /> {/* Reemplaza con la ruta de tu logo */}
-      </div>
-      <ul className="nav-links">
+      <ul className="navbar-links">
         <li>
           <Link to="/">Inicio</Link>
         </li>
         <li>
-          <Link to="/about">Acerca de</Link>
+          <a href="#caracteristicas">Características</a>
         </li>
         <li>
-          <Link to="/contact">Contacto</Link>
+          <a href="#galeria">Galería</a>
         </li>
         <li>
-          <Link to="/gallery">Galería</Link>
+          <a href="#servicios">Servicios</a>
         </li>
         <li>
-          <Link to="/register">Registrar</Link> {/* Enlace para registrar */}
+          <a href="#testimonios">Testimonios</a>
         </li>
         <li>
-          <Link to="/login">Ingresar</Link> {/* Enlace para ingresar */}
+          <a href="#contacto">Contacto</a>
         </li>
         <li>
-          <Link to="/profile">Perfil</Link> {/* Enlace para perfil */}
+          <Link to="/booking">Reservas</Link>
+        </li>
+        <li>
+          <Link to="/payment">Pago</Link>
+        </li>
+        <li>
+          <Link to="/cart">Carrito ({cartItems.length})</Link> {/* Mostrar cantidad de items en el carrito */}
         </li>
       </ul>
-      <div className="btn-container">
-        <Link to="/booking" className="btn-reservar"> {/* Cambié el enlace de crear orden de PayPal a reservar */}
-          Reservar
-        </Link> {/* Enlace para reservar */}
-      </div>
     </nav>
   );
 };

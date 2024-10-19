@@ -1,34 +1,28 @@
-// models/Reservation.js
-const mongoose = require('mongoose');
+// src/routes/reservationRoutes.js
+const express = require('express');
+const router = express.Router();
+const Reservation = require('./Reservation'); // Modelo de la reserva
 
-const reservationSchema = new mongoose.Schema({
-  cabinType: {
-    type: String,
-    required: true,
-  },
-  startDate: {
-    type: Date,
-    required: true,
-  },
-  endDate: {
-    type: Date,
-    required: true,
-  },
-  totalAmount: {
-    type: Number,
-    required: true,
-  },
-  paymentStatus: {
-    type: String,
-    enum: ['pending', 'completed'],
-    default: 'pending',
-  },
-  createdAt: {
-    type: Date,
-    default: Date.now,
-  },
+// Ruta para crear una nueva reserva
+router.post('/', async (req, res) => {
+  const { cabinType, numOfGuests, startDate, endDate, totalPrice, userId } = req.body;
+  
+  try {
+    const newReservation = new Reservation({
+      cabinType,
+      numOfGuests,
+      startDate,
+      endDate,
+      totalPrice,
+      userId, // Aquí guardas el ID del usuario
+    });
+    
+    await newReservation.save();
+    res.status(201).json(newReservation); // Devuelve la reserva creada
+  } catch (error) {
+    console.error('Error al guardar la reserva:', error);
+    res.status(500).json({ message: 'Error al guardar la reserva' });
+  }
 });
 
-const Reservation = mongoose.model('Reservation', reservationSchema);
-
-module.exports = Reservation;
+module.exports = router;

@@ -1,0 +1,67 @@
+/* src/pages/CartPage.css */
+
+.cart-page {
+    padding: 20px;
+    text-align: center; /* Centra el texto de la página */
+  }
+  
+  .cart-items-list {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .cart-item {
+    border: 1px solid #ddd;
+    padding: 15px;
+    margin: 10px 0;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+  }
+  
+  .cart-summary {
+    margin-top: 20px;
+    display: flex; /* Utiliza Flexbox para alinear los botones */
+    justify-content: center; /* Centra los botones horizontalmente */
+  }
+  
+  /* Estilo para los botones */
+  .btn-continue,
+  .btn-clear {
+    padding: 10px 20px; /* Espaciado interno para todos los botones */
+    margin: 5px; /* Margen entre botones */
+    border: none; /* Sin borde por defecto */
+    border-radius: 5px; /* Bordes redondeados */
+    background-color: #007bff; /* Color de fondo */
+    color: white; /* Color del texto */
+    font-size: 16px; /* Tamaño de fuente */
+    cursor: pointer; /* Cambia el cursor al pasar el mouse */
+    transition: background-color 0.3s ease; /* Transición suave */
+  }
+  
+  .btn-continue:hover,
+  .btn-clear:hover {
+    background-color: #0056b3; /* Color de fondo al pasar el mouse */
+  }
+  
+  /* Para los botones de PayPal */
+  #paypal-button-container {
+    margin-top: 20px; /* Espacio superior */
+    display: flex !important; /* Utiliza Flexbox para centrar el botón de PayPal */
+    justify-content: center; /* Centra el botón de PayPal */
+  }
+  
+  /* Opcional: Puedes agregar márgenes a los botones de PayPal si es necesario */
+  .paypal-buttons-container {
+    display: flex;
+    justify-content: center; /* Centra todos los botones de PayPal */
+  }
+  
+  .cart-item h2 {
+    font-size: 18px; /* Tamaño de fuente para el título */
+    margin-bottom: 5px; /* Margen inferior */
+  }
+  
+  .cart-item p {
+    margin: 5px 0; /* Margen entre párrafos */
+  }
+  

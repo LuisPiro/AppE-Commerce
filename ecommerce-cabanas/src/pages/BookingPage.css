@@ -1,35 +1,75 @@
-/* src/styles/BookingPage.css */
-form {
-    display: flex;
-    flex-direction: column;
-    max-width: 400px;
-    margin: 0 auto;
-  }
-  
-  form label {
-    margin-bottom: 10px;
-    font-weight: bold;
-  }
-  
-  form input,
-  form select {
-    padding: 10px;
-    margin-bottom: 15px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-  }
-  
-  form button {
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    padding: 10px 15px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-  }
-  
-  form button:hover {
-    background-color: #0056b3;
-  }
-  
+/* src/pages/BookingPage.css */
+.booking-page {
+  margin-top: 60px; /* Espacio para la navbar */
+  padding: 40px; /* Espaciado interno */
+  background-color: #f7f9fc; /* Color de fondo claro */
+  border-radius: 8px; /* Esquinas redondeadas */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Sombra para dar profundidad */
+  max-width: 600px; /* Ancho máximo del formulario */
+  margin-left: auto; /* Centrar horizontalmente */
+  margin-right: auto; /* Centrar horizontalmente */
+  text-align: center; /* Centrar el texto en todo el contenedor */
+}
+
+h1 {
+  color: #2c3e50; /* Color del título */
+  margin-bottom: 20px; /* Espacio debajo del título */
+}
+
+label {
+  display: block; /* Hacer que las etiquetas ocupen el ancho completo */
+  margin: 15px 0 5px; /* Margen entre etiquetas */
+  font-weight: bold; /* Negrita para las etiquetas */
+}
+
+input[type="date"],
+input[type="number"],
+select {
+  width: 100%; /* Ancho completo para todos los campos */
+  max-width: 400px; /* Establecer un ancho máximo para evitar campos demasiado anchos */
+  padding: 12px; /* Espaciado interno */
+  margin-top: 5px; /* Margen superior del campo */
+  border: 1px solid #bdc3c7; /* Color del borde */
+  border-radius: 4px; /* Esquinas redondeadas */
+  transition: border-color 0.3s; /* Transición suave para el borde */
+  display: block; /* Para que los campos se alineen uno debajo del otro */
+  margin-left: auto; /* Centrar horizontalmente */
+  margin-right: auto; /* Centrar horizontalmente */
+}
+
+input[type="date"]:focus,
+input[type="number"]:focus,
+select:focus {
+  border-color: #3498db; /* Cambiar color del borde al enfocar */
+  outline: none; /* Quitar el contorno por defecto */
+}
+
+.total-price {
+  font-size: 18px; /* Tamaño de fuente del precio total */
+  font-weight: bold; /* Negrita para el precio total */
+  margin: 15px 0; /* Espacio alrededor del precio */
+}
+
+.error-message {
+  color: red; /* Color del mensaje de error */
+  margin: 10px 0; /* Espacio alrededor del mensaje de error */
+}
+
+button {
+  background-color: #3498db; /* Color de fondo del botón */
+  color: white; /* Color del texto del botón */
+  padding: 12px 20px; /* Espaciado interno */
+  border: none; /* Sin borde */
+  border-radius: 4px; /* Esquinas redondeadas */
+  cursor: pointer; /* Cambiar el cursor al pasar el mouse */
+  width: 100%; /* Botón ocupa el 100% del ancho */
+  max-width: 400px; /* Establecer un ancho máximo para el botón */
+  margin-top: 15px; /* Margen superior del botón */
+  margin-left: auto; /* Centrar horizontalmente */
+  margin-right: auto; /* Centrar horizontalmente */
+  transition: background-color 0.3s; /* Transición suave para el fondo */
+}
+
+button:hover {
+  background-color: #2980b9; /* Color más oscuro al pasar el mouse */
+}

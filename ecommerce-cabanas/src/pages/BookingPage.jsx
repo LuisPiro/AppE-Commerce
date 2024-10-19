@@ -1,5 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useCart } from '../context/CartContext'; // Importa el contexto de carrito
+import AuthContext from '../context/AuthContext'; // Importa el contexto de autenticación
+import axiosInstance from '../utils/axiosConfig'; // Importa la instancia de Axios
 import './BookingPage.css';
 
 const prices = {
@@ -15,56 +18,79 @@ const BookingPage = () => {
   const [totalPrice, setTotalPrice] = useState(0);
   const [error, setError] = useState('');
   const navigate = useNavigate();
+  const { addToCart } = useCart(); // Obtiene la función para agregar al carrito
+  const { user } = useContext(AuthContext); // Obtén el usuario del contexto
 
   useEffect(() => {
-    setError(''); // Resetea el error al cambiar cualquiera de los valores
+    setError('');
     if (startDate && endDate && cabinType) {
       const start = new Date(startDate);
       const end = new Date(endDate);
       
-      if (end > start) { // Verifica que endDate sea posterior a startDate
-        const diffDays = Math.ceil((end - start) / (1000 * 60 * 60 * 24)); // Convertir milisegundos a días
+      if (end > start) {
+        const diffDays = Math.ceil((end - start) / (1000 * 60 * 60 * 24));
         const pricePerDay = prices[cabinType];
         const calculatedPrice = diffDays * pricePerDay;
 
-        setTotalPrice(calculatedPrice); // Actualiza el precio total
+        setTotalPrice(calculatedPrice);
       } else {
         setError('La fecha de fin debe ser posterior a la fecha de inicio.');
         setTotalPrice(0);
       }
     } else {
-      setTotalPrice(0); // Si faltan datos, establece el precio en 0
+      setTotalPrice(0);
     }
   }, [startDate, endDate, cabinType]);
 
-  const handleSubmit = (e) => {
+  const handleAddToCart = (e) => {
     e.preventDefault();
-    // Verifica el número de huéspedes
+
     if (numOfGuests > cabinType) {
       setError('El número de huéspedes excede la capacidad de la cabaña.');
       return;
     }
 
-    // Redirigir a la página de pago solo si el precio es mayor a 0
     if (totalPrice > 0) {
-      navigate('/payment', {
-        state: {
-          totalAmount: totalPrice,
-          cabinDetails: { name: `Cabaña para ${cabinType} personas` },
-          startDate,
-          endDate,
-          cabinType
-        }
-      });
+      const item = {
+        totalAmount: totalPrice,
+        cabinDetails: { name: `Cabaña para ${cabinType} personas` },
+        startDate,
+        endDate,
+        cabinType,
+      };
+
+      addToCart(item); // Agrega el ítem al carrito
+      navigate('/cart'); // Redirige al carrito
     } else {
       setError('Por favor, asegúrate de seleccionar todos los campos correctamente.');
     }
   };
 
+  const handlePayPal = async () => {
+    const reservation = {
+      cabinType,
+      numOfGuests,
+      startDate,
+      endDate,
+      totalPrice,
+      userId: user.token, // Usa el ID del usuario desde el contexto
+    };
+
+    try {
+      // Enviar la reserva al servidor
+      const response = await axiosInstance.post('/reservations', reservation); // Asegúrate de que la ruta sea correcta
+      console.log('Reserva guardada:', response.data);
+      
+      // Aquí podrías implementar la lógica de PayPal, si es necesario
+    } catch (error) {
+      console.error('Error al guardar la reserva:', error);
+    }
+  };
+
   return (
-    <div>
+    <div className="booking-page">
       <h1>Reservar Cabaña</h1>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleAddToCart}>
         <label>
           Tipo de Cabaña:
           <select value={cabinType} onChange={(e) => setCabinType(e.target.value)}>
@@ -98,10 +124,13 @@ const BookingPage = () => {
             onChange={(e) => setEndDate(e.target.value)}
           />
         </label>
-        <p>Precio Total: ${totalPrice.toLocaleString(undefined, { minimumFractionDigits: 2 })}</p> {/* Formatear el precio */}
-        {error && <p style={{ color: 'red' }}>{error}</p>} {/* Mostrar mensaje de error */}
-        <button type="submit">Reservar</button>
+        <p className="total-price">
+          Precio Total: ${totalPrice.toLocaleString(undefined, { minimumFractionDigits: 2 })}
+        </p> 
+        {error && <p className="error-message">{error}</p>} 
+        <button type="submit">Agregar al Carrito de Compras</button>
       </form>
+      <button onClick={handlePayPal} className="paypal-button">Pagar con PayPal</button>
     </div>
   );
 };

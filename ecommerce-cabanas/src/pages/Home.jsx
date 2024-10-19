@@ -10,6 +10,7 @@ const Home = () => {
                 <div className="hero-content">
                     <h1>Descubre el Encanto de Nuestras Cabañas</h1>
                     <p>Relájate en un entorno natural con todas las comodidades.</p>
+                    <button className="btn-reservar">Reservar Ahora</button> {/* Añadido botón de reservar */}
                 </div>
             </section>
 
@@ -56,8 +57,8 @@ const Home = () => {
             <section id="testimonios" className="testimonios">
                 <div className="container">
                     <div className="testimonios-grid">
+                        <h3>Testimonios de nuestros clientes:</h3>
                         <div className="testimonio">
-                            <h3>Testimonios de nuestros clientes:</h3>
                             <p>"La mejor experiencia de mi vida. ¡Volveremos seguro!"</p>
                             <p>- Juan Pérez</p>
                         </div>
@@ -72,15 +73,15 @@ const Home = () => {
                     <form action="#" method="POST">
                         <div className="form-group">
                             <label htmlFor="nombre">Nombre:</label>
-                            <input type="text" id="nombre" name="nombre" />
+                            <input type="text" id="nombre" name="nombre" required />
                         </div>
                         <div className="form-group">
                             <label htmlFor="email">Email:</label>
-                            <input type="email" id="email" name="email" />
+                            <input type="email" id="email" name="email" required />
                         </div>
                         <div className="form-group">
                             <label htmlFor="mensaje">Mensaje:</label>
-                            <textarea id="mensaje" name="mensaje"></textarea>
+                            <textarea id="mensaje" name="mensaje" required></textarea>
                         </div>
                         <button type="submit" className="btn-enviar">Enviar</button>
                     </form>
@@ -93,6 +94,7 @@ const Home = () => {
             </footer>
 
             {/* Scripts */}
+            {/* Asegúrate de que el script sea necesario, de lo contrario, elimínalo */}
             <script src="../components/ManejoSlides.jsx"></script>
         </div>
     );

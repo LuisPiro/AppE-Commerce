@@ -1,84 +1,38 @@
 /* src/components/Navbar.css */
 .navbar {
-  position: sticky !important;
-  background-color: #00332e;
-  color: #ffffff;
-  padding: 15px 50px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  background-color: #2b3e1f; /* Verde oscuro */
+  color: white;
+  padding: 10px 20px; /* Reducir el padding vertical para ocupar menos espacio */
+  position: fixed; /* Fijar la barra de navegación */
   top: 0;
+  left: 0;
+  width: 100%;
   z-index: 1000;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2); /* Sombra para dar profundidad */
 }
 
-/* Barra de Navegación */
-.logo img {
-  height: 80px; /* Ajusta la altura según el tamaño que desees para el logo */
-  width: auto; /* Mantiene la proporción de la imagen */
-}
-
-.logo {
-  display: flex;
-  align-items: center;
-}
-
-.nav-links {
-  list-style: none;
-  display: flex;
-  gap: 30px;
-  margin: 0;
+.navbar-links {
+  list-style: none; /* Eliminar puntos de la lista */
   padding: 0;
+  display: flex; /* Mostrar enlaces en línea */
+  flex-wrap: wrap; /* Permitir que los enlaces se envuelvan en pantallas más pequeñas */
 }
 
-.nav-links a {
-  color: #ffffff;
-  text-decoration: none;
-  font-size: 16px;
-  font-weight: 500;
-  padding: 10px 20px;
-  border-radius: 30px;
-  transition: background-color 0.3s ease, color 0.3s ease;
+.navbar-links li {
+  margin: 0 15px; /* Espaciado entre los enlaces */
 }
 
-.nav-links a:hover {
-  background-color: #00796b; /* Efecto hover con color verde más claro */
-  color: #ffffff;
+.navbar-links a {
+  color: white; /* Color del texto */
+  text-decoration: none; /* Eliminar subrayado */
+  transition: color 0.3s; /* Transición suave para el cambio de color */
 }
 
-.btn-container {
-  margin-left: auto; /* Mueve el botón de reservar al extremo derecho */
+.navbar-links a:hover {
+  color: #a1c49b; /* Color al pasar el ratón */
 }
 
-.btn-reservar {
-  background-color: #00796b; /* Color verde para el botón */
-  color: #ffffff;
-  padding: 10px 25px;
-  border-radius: 30px;
-  text-decoration: none;
-  font-weight: 600;
-  transition: background-color 0.3s ease, transform 0.3s ease;
-}
-
-.btn-reservar:hover {
-  background-color: #004d40; /* Cambia a un tono más oscuro en hover */
-  transform: scale(1.05); /* Pequeño aumento en hover */
-}
-
-/* Adaptabilidad para pantallas pequeñas */
-@media (max-width: 768px) {
-  .navbar {
-      flex-direction: column;
-      align-items: flex-start;
-      padding: 10px 20px;
-  }
-
-  .nav-links {
-      flex-direction: column;
-      gap: 10px;
-  }
-
-  .btn-container {
-      margin: 20px 0 0 0; /* Botón reservar debajo de los enlaces en pantallas pequeñas */
-  }
+/* Agregar margen superior al contenido principal para que no se oculte detrás de la navbar */
+body {
+  padding-top: 60px; /* Ajustar según la nueva altura de la navbar */
 }
