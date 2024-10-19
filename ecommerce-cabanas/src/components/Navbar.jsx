@@ -32,9 +32,6 @@ const Navbar = () => {
           <Link to="/booking">Reservas</Link>
         </li>
         <li>
-          <Link to="/payment">Pago</Link>
-        </li>
-        <li>
           <Link to="/cart">Carrito ({cartItems.length})</Link> {/* Mostrar cantidad de items en el carrito */}
         </li>
       </ul>
