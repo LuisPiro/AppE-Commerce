@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import './RegisterPage.css';
 
 const RegisterPage = () => {
   const [formData, setFormData] = useState({
@@ -10,16 +11,18 @@ const RegisterPage = () => {
     confirmPassword: ''
   });
   const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
   const navigate = useNavigate();
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+    setError('');
+    setSuccess('');
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Validar campos
     if (!formData.name || !formData.email || !formData.password || !formData.confirmPassword) {
       setError("Por favor completa todos los campos.");
       return;
@@ -30,13 +33,20 @@ const RegisterPage = () => {
       return;
     }
 
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailPattern.test(formData.email)) {
+      setError("Por favor ingresa un email válido.");
+      return;
+    }
+
     try {
       await axios.post('http://localhost:5000/api/auth/register', {
-        name: formData.name, 
+        name: formData.name,
         email: formData.email,
         password: formData.password
       });
-      navigate('/login'); // Redirigir a la página de inicio de sesión
+      setSuccess("Registro exitoso. Ahora puedes iniciar sesión.");
+      setTimeout(() => navigate('/login'), 2000);
     } catch (err) {
       console.error("Error de registro:", err.response);
       const errorMessage = err.response?.data?.message || "Error en el registro.";
@@ -45,9 +55,9 @@ const RegisterPage = () => {
   };
 
   return (
-    <div>
+    <div className="container">
       <h2>Registrar</h2>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className="form">
         <div>
           <label>Nombre</label>
           <input
@@ -88,7 +98,8 @@ const RegisterPage = () => {
             required
           />
         </div>
-        {error && <p style={{ color: 'red' }}>{error}</p>}
+        {error && <p className="error">{error}</p>}
+        {success && <p className="success">{success}</p>}
         <button type="submit">Registrar</button>
       </form>
     </div>

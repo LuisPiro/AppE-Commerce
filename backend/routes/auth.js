@@ -1,60 +1,48 @@
+// routes/auth.js
 const express = require('express');
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
-const User = require('../models/User.js');
-require('dotenv').config();
-
+const bcrypt = require('bcrypt');
+const User = require('../models/User');
 const router = express.Router();
 
-// Registro de usuario
+// Ruta de registro
 router.post('/register', async (req, res) => {
   const { name, email, password } = req.body;
 
-  // Validar campos requeridos
-  if (!name || !email || !password) {
-    return res.status(400).json({ msg: 'Por favor completa todos los campos' });
-  }
+  // Hash de la contraseña
+  const hashedPassword = await bcrypt.hash(password, 10);
+
+  const user = new User({
+    name,
+    email,
+    password: hashedPassword,
+  });
 
   try {
-    // Verificar si el usuario ya existe
-    const existingUser = await User.findOne({ email });
-    if (existingUser) {
-      return res.status(400).json({ msg: 'El correo electrónico ya está registrado' });
-    }
-
-    // Encriptar la contraseña
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(password, salt);
-
-    // Crear el nuevo usuario
-    const newUser = new User({
-      name,
-      email,
-      password: hashedPassword,
-    });
-
-    // Guardar el usuario en la base de datos
-    await newUser.save();
-
-    // Generar el token JWT
-    const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
-
-    res.status(201).json({
-      msg: 'Usuario registrado con éxito',
-      token,
-      user: { id: newUser._id, name: newUser.name, email: newUser.email },
-    });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ msg: 'Hubo un error en el servidor' });
+    await user.save();
+    res.status(201).send({ message: "Usuario registrado exitosamente." });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send({ message: "Error en el registro." });
   }
 });
 
-// Iniciar sesión
-router.post('/login', (req, res) => {
-  // Lógica de autenticación
-  res.send('Login exitoso');
-});
+// Ruta de inicio de sesión
+router.post('/login', async (req, res) => {
+  const { email, password } = req.body;
+  const user = await User.findOne({ email });
 
+  if (!user) {
+    return res.status(400).send({ message: "Usuario no encontrado." });
+  }
+
+  // Comparar contraseñas
+  const isMatch = await bcrypt.compare(password, user.password);
+  if (!isMatch) {
+    return res.status(400).send({ message: "Contraseña incorrecta." });
+  }
+
+  // Aquí puedes generar un token y enviarlo al cliente
+  res.status(200).send({ message: "Inicio de sesión exitoso.", userId: user._id });
+});
 
 module.exports = router;

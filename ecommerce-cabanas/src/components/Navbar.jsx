@@ -32,7 +32,14 @@ const Navbar = () => {
           <Link to="/booking">Reservas</Link>
         </li>
         <li>
-          <Link to="/cart">Carrito ({cartItems.length})</Link> {/* Mostrar cantidad de items en el carrito */}
+          <Link to="/cart" className="cart-link">Carrito ({cartItems.length})</Link> {/* Mostrar cantidad de items en el carrito */}
+        </li>
+        {/* Nuevos enlaces para iniciar sesión y registrarse */}
+        <li>
+          <Link to="/login" className="auth-link">Iniciar Sesión</Link>
+        </li>
+        <li>
+          <Link to="/register" className="auth-link">Registrar</Link>
         </li>
       </ul>
     </nav>
